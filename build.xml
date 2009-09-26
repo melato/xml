@@ -1,0 +1,3 @@
+<project name="aa-xml">
+	<import file="../../ant/java.xml"/>	
+</project>
