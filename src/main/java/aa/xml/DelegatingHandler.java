@@ -35,7 +35,7 @@ class DelegatingHandler implements ContentHandler {
 	public void endDocument() throws SAXException {
 	}
 
-	public void endElement(String arg0, String arg1, String arg2)
+	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		currentHandler.end();
 		handlerStack.remove( handlerStack.size() - 1 );
@@ -43,25 +43,25 @@ class DelegatingHandler implements ContentHandler {
 	}
 
 	@Override
-	public void endPrefixMapping(String arg0) throws SAXException {
+	public void endPrefixMapping(String prefix) throws SAXException {
 	}
 
 	@Override
-	public void ignorableWhitespace(char[] arg0, int arg1, int arg2)
+	public void ignorableWhitespace(char[] ch, int start, int length)
 			throws SAXException {
 	}
 
 	@Override
-	public void processingInstruction(String arg0, String arg1)
+	public void processingInstruction(String target, String data)
 			throws SAXException {
 	}
 
 	@Override
-	public void setDocumentLocator(Locator arg0) {
+	public void setDocumentLocator(Locator locator) {
 	}
 
 	@Override
-	public void skippedEntity(String arg0) throws SAXException {
+	public void skippedEntity(String name) throws SAXException {
 	}
 
 	@Override
@@ -81,7 +81,7 @@ class DelegatingHandler implements ContentHandler {
 	}
 
 	@Override
-	public void startPrefixMapping(String arg0, String arg1)
+	public void startPrefixMapping(String prefix, String uri)
 			throws SAXException {
 	}
 	
