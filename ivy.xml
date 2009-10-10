@@ -1,7 +1,7 @@
 <ivy-module version="1.0">
     <info organisation="aa" module="aa-xml"/>
     <configurations>
-        <include file="../../ivy/configurations.xml"/>
+        <include file="${dev.dir}/project/ivy/configurations.xml"/>
     </configurations>
     <dependencies>
         <dependency org="org.junit" name="junit" rev="4.4" conf="test->default"/>
