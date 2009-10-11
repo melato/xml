@@ -15,14 +15,14 @@ public class XMLNullHandler implements XMLElementHandler {
 		return nullHandler;
 	}
 	
-	public void end() {
+	public void end() throws SAXException {
 	}
 
 	public XMLElementHandler getHandler(XMLTag tag) {
 		return nullHandler;
 	}
 
-	public void start(XMLTag tag) {
+	public void start(XMLTag tag) throws SAXException {
 	}
 
 	public void characters(char[] ch, int start, int length) throws SAXException {
