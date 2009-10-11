@@ -22,6 +22,11 @@ public class XMLStringHandler extends XMLNullHandler {
 	public void start(XMLTag tag) {
 		buf = new StringBuilder();
 	}
+	
+	public void clear() {
+		buf = null;
+		text = null;
+	}
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
