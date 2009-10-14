@@ -181,4 +181,8 @@ public class XMLWriter {
     public void flush() {
     	writer.flush();
     }
+    
+    public void close() {
+    	writer.close();
+    }
 }
