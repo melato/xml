@@ -17,7 +17,12 @@ import org.xml.sax.Attributes;
  */
 public class XMLWriter {
     private	PrintWriter	writer;
+	private	boolean		useNewlines = false;
     
+	public void setUseNewlines(boolean useNewlines) {
+		this.useNewlines = useNewlines;
+	}
+	
     /**
      * Temporary buffer.
      */
@@ -46,7 +51,7 @@ public class XMLWriter {
     }
     
     public void tagAttribute( String name, String value ) {
-		writer.write( " " );
+    	writer.write( " " );
 		writer.write( name );
 		writer.write( "=" );
 		writer.write( '"' );
@@ -85,6 +90,9 @@ public class XMLWriter {
     }
     
     public void tagOpen( String tag, boolean close ) {
+    	if ( useNewlines ) {
+    		writer.println();
+    	}
     	writer.write( "<" );
     	writer.write( tag );
     	if ( close ) {
@@ -177,6 +185,10 @@ public class XMLWriter {
 	string.getChars(0, length, cc, 0);
 	text(cc, 0, length);
     }
+
+    public PrintWriter getWriter() {
+		return writer;
+	}
     
     public void flush() {
     	writer.flush();
