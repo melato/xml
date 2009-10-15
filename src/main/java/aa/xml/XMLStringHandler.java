@@ -12,15 +12,44 @@ import org.xml.sax.SAXException;
 public class XMLStringHandler extends XMLNullHandler {
 	private StringBuilder buf;
 	private	String text;
+	private	boolean includeChildren;
+	private	int		level;
 
+	
+	public XMLStringHandler(boolean includeChildren) {
+		this.includeChildren = includeChildren;
+	}
+	
+	public XMLStringHandler() {
+	}
+	
+	public void setIncludeChildren(boolean includeChildren) {
+		this.includeChildren = includeChildren;
+	}
+	
+	@Override
+	public XMLElementHandler getHandler(XMLTag tag) {
+		if ( includeChildren ) {
+			level++;
+			return this;
+		}
+		return super.getHandler(tag);
+	}
+	
 	@Override
 	public void end() {
-		text = buf.toString();
+		if ( level > 0 ) {
+			level--;
+		} else {
+			text = buf.toString();
+		}
 	}
 
 	@Override
 	public void start(XMLTag tag) {
-		buf = new StringBuilder();
+		if ( level == 0 ) {
+			buf = new StringBuilder();
+		}
 	}
 	
 	public void clear() {
