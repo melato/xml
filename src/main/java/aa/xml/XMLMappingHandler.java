@@ -6,16 +6,27 @@ package aa.xml;
 import java.util.HashMap;
 import java.util.Map;
 
-/** An XML Element handler that delegates tags to handlers through a map of handlers.
+import org.xml.sax.SAXException;
+
+/**
+ * An XML Element handler that delegates tags to handlers through a map of handlers.
+ * It also delegates its element body to another handler. 
  * @author Alex Athanasopoulos
  * @date Dec 1, 2007
  */
-public class XMLMappingHandler extends XMLNullHandler {
+public class XMLMappingHandler implements XMLElementHandler {
 	private Map<String,XMLElementHandler> handlerMap = new HashMap<String,XMLElementHandler>();
+	private	XMLElementHandler	bodyHandler = XMLNullHandler.getInstance();
 
 	/** Associate an XML sub tag with a handler. */
 	public void setHandler( String tag, XMLElementHandler handler ) {
 		handlerMap.put( tag, handler );
+	}
+	
+	/** Define a handler for the element body.
+	 *  It handles the start, characters, and end calls. */
+	public void setBodyHandler( XMLElementHandler handler ) {
+		this.bodyHandler = handler;
 	}
 
 	public void setPathHandler( String path, XMLElementHandler handler ) {
@@ -43,5 +54,18 @@ public class XMLMappingHandler extends XMLNullHandler {
 		if ( handler == null )
 			handler = XMLNullHandler.getInstance();
 		return handler;
+	}
+
+	public void characters(char[] ch, int start, int length)
+			throws SAXException {
+		bodyHandler.characters(ch, start, length);
+	}
+
+	public void end() throws SAXException {
+		bodyHandler.end();
+	}
+
+	public void start(XMLTag tag) throws SAXException {
+		bodyHandler.start(tag);
 	}
 }
