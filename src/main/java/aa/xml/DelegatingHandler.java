@@ -75,6 +75,7 @@ class DelegatingHandler implements ContentHandler {
 		XMLElementHandler nextHandler = currentHandler.getHandler( tag );
 		if ( nextHandler == null )
 			nextHandler = XMLNullHandler.getInstance();
+		//System.out.println( tag.getName() + ": " + nextHandler.getClass().getName() );
 		currentHandler = nextHandler;
 		handlerStack.add( currentHandler );
 		currentHandler.start( tag );
