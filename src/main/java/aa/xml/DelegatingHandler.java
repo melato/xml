@@ -37,6 +37,7 @@ class DelegatingHandler implements ContentHandler {
 
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
+		//System.out.println( "end: " + qName + " " + currentHandler.getClass().getName() );
 		currentHandler.end();
 		handlerStack.remove( handlerStack.size() - 1 );
 		currentHandler = handlerStack.get( handlerStack.size() - 1 );
