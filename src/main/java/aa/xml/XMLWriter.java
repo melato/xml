@@ -6,6 +6,9 @@
  */
 package aa.xml;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -28,12 +31,19 @@ public class XMLWriter {
      */
     private char[] tempChars;
 
+    public XMLWriter( File file ) throws IOException {
+    	this( new FileWriter( file ));
+    }
     public XMLWriter(Writer writer ) {
     	this.writer = new PrintWriter( writer );
     }
 
     public XMLWriter(OutputStream out) {
     	this.writer = new PrintWriter( out );
+    }
+    
+    public void printHeader() {
+    	this.writer.print( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
     }
     
     public void println() {
