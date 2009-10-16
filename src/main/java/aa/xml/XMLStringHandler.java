@@ -11,59 +11,67 @@ import org.xml.sax.SAXException;
  */
 public class XMLStringHandler extends XMLNullHandler {
 	private StringBuilder buf;
-	private	String text;
-	private	boolean includeChildren;
+	private	boolean recursive;
+	private	boolean append;
 	private	int		level;
 
-	
-	public XMLStringHandler(boolean includeChildren) {
-		this.includeChildren = includeChildren;
-	}
 	
 	public XMLStringHandler() {
 	}
 	
-	public void setIncludeChildren(boolean includeChildren) {
-		this.includeChildren = includeChildren;
+	/**
+	 * In recursive mode, the body text of children tags are also included, recursively.
+	 * The default is non-recursive. 
+	 * @param recursive
+	 */
+	public void setRecursive(boolean recursive) {
+		this.recursive = recursive;
+	}
+	
+	/**
+	 * Enable append mode:  keep appending to the string until explicitly cleared.
+	 * The default is false:  clear the string at the beginning of the tag.
+	 * @param append
+	 */
+	public void setAppend(boolean append) {
+		this.append = append;
 	}
 	
 	@Override
 	public XMLElementHandler getHandler(XMLTag tag) {
-		if ( includeChildren ) {
-			level++;
+		if ( recursive ) {
 			return this;
 		}
 		return super.getHandler(tag);
 	}
 	
 	@Override
-	public void end() {
-		if ( level > 0 ) {
-			level--;
-		} else {
-			text = buf.toString();
+	public void start(XMLTag tag) {
+		if ( ! append && level++ == 0 ) {
+			clear();
 		}
 	}
 
 	@Override
-	public void start(XMLTag tag) {
-		if ( level == 0 ) {
-			buf = new StringBuilder();
-		}
+	public void end() {
+		level--;
 	}
 	
 	public void clear() {
 		buf = null;
-		text = null;
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
+		if ( buf == null )
+			buf = new StringBuilder();
 		buf.append( ch, start, length );
 	}
 
 	/** Return the content text of the XML Element, as a string */
 	public String getText() {
-		return text;
+		if ( buf == null )
+			return null;
+		return buf.toString();
 	}
 }

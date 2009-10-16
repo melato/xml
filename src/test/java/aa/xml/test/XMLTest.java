@@ -6,19 +6,20 @@ package aa.xml.test;
 import java.io.InputStream;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class XMLTest extends TestCase {
-	public void testContacts() throws Exception {
+public class XMLTest {
+	public @Test void testContacts() throws Exception {
 		InputStream stream = getClass().getResourceAsStream( "contacts.xml" );
 		try {
 			List<Contact> contacts = ContactManager.readXML( stream );
-			assertEquals( 1, contacts.size() );
+			Assert.assertEquals( 1, contacts.size() );
 			Contact c = contacts.get(0);
-			assertEquals( "Alex Athanasopoulos", c.getName() );
-			assertEquals( "206-291-8105", c.getPhone() );
-			assertEquals( "aathanasopoulos@yahoo.com", c.getEmail() );
-			assertEquals( "Example Contact", c.getDescription() );
+			Assert.assertEquals( "Alex Athanasopoulos", c.getName() );
+			Assert.assertEquals( "206-291-8105", c.getPhone() );
+			Assert.assertEquals( "aathanasopoulos@yahoo.com", c.getEmail() );
+			Assert.assertEquals( "Example Contact", c.getDescription() );
 		} finally {
 			stream.close();
 		}

@@ -4,6 +4,7 @@
 package aa.xml;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.ext.Attributes2Impl;
 
 /** Encapsulates the information of the starting tag of an XML Element.
  * 
@@ -23,13 +24,17 @@ public class XMLTag {
 	 * @param qName
 	 * @param atts
 	 */
-	XMLTag(String uri, String localName, String qName, Attributes atts) {
+	public XMLTag(String uri, String localName, String qName, Attributes atts) {
 		this.uri = uri;
 		this.localName = localName;
 		this.qName = qName;
 		this.attributes = atts;
 	}
 	
+	/** Simple way to create a tag.  Use for testing. */
+	public XMLTag( String name ) {
+		this( " ", name, name, new Attributes2Impl() );		
+	}
 	/** Return the name of the attribute.
 	 *  Just uses qualified name for now.
 	 * @return
