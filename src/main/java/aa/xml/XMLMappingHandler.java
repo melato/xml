@@ -5,6 +5,8 @@ package aa.xml;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.xml.sax.SAXException;
 
@@ -17,6 +19,11 @@ import org.xml.sax.SAXException;
 public class XMLMappingHandler implements XMLElementHandler {
 	private Map<String,XMLElementHandler> handlerMap = new HashMap<String,XMLElementHandler>();
 	private	XMLElementHandler	bodyHandler = XMLNullHandler.getInstance();
+	private Logger logger = Logger.getLogger(getClass().getName());
+	
+	private static class EmptyPathException extends RuntimeException {
+		private static final long serialVersionUID = 1L;		
+	}
 
 	/** Associate an XML sub tag with a handler. */
 	public void setHandler( String tag, XMLElementHandler handler ) {
@@ -29,13 +36,12 @@ public class XMLMappingHandler implements XMLElementHandler {
 		this.bodyHandler = handler;
 	}
 
-	public void setPathHandler( String path, XMLElementHandler handler ) {
+	public void setPathHandler( String[] path, XMLElementHandler handler ) {
 		XMLMappingHandler leafHandler = this;
-		String[] pp = path.split( "/" );
-		for( int i = 0; i < pp.length - 1; i++ ) {
-			String tag = pp[i];
+		for( int i = 0; i < path.length - 1; i++ ) {
+			String tag = path[i];
 			if ( tag.length() == 0 ) {
-				throw new IllegalArgumentException( "Empty path component in: " + path );
+				throw new EmptyPathException();
 			}
 			XMLElementHandler h = leafHandler.handlerMap.get( tag );
 			if ( h == null ) {
@@ -46,13 +52,25 @@ public class XMLMappingHandler implements XMLElementHandler {
 			}
 			leafHandler = (XMLMappingHandler) h;
 		}
-		leafHandler.setHandler( pp[pp.length-1], handler );
+		leafHandler.setHandler( path[path.length-1], handler );
 	}
 		
+	public void setPathHandler( String path, XMLElementHandler handler ) {
+		String[] pp = path.split( "/" );
+		try {
+			setPathHandler( pp, handler );
+		} catch( EmptyPathException e ) {
+			throw new IllegalArgumentException( "Empty path component in: " + path );
+		}
+	}
+
 	public XMLElementHandler getHandler(XMLTag tag) {
 		XMLElementHandler handler = handlerMap.get( tag.getName() );
 		if ( handler == null )
 			handler = XMLNullHandler.getInstance();
+		if ( logger.isLoggable(Level.FINE )) {
+			logger.fine( tag.getName() + ": " + handler.getClass().getName() );
+		}
 		return handler;
 	}
 
