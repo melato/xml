@@ -95,6 +95,10 @@ public class XMLWriter {
     	writer.write( ">" );
     }
     
+    public void tagClose( boolean endToo ) {
+    	writer.write( endToo ? "/>" : ">" );
+    }
+    
     public void tagOpen( String tag ) {
     	tagOpen( tag, true );
     }
