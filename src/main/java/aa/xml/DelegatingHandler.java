@@ -6,6 +6,8 @@ package aa.xml;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -17,6 +19,7 @@ import org.xml.sax.SAXException;
  * @date Dec 1, 2007
  */
 class DelegatingHandler implements ContentHandler {
+	Logger logger = Logger.getLogger( getClass().getName() );
 	/** The current stack of handlers, containing all the nested handlers,
 	 * up to and including the current handler.
 	 */
@@ -24,6 +27,7 @@ class DelegatingHandler implements ContentHandler {
 	private XMLElementHandler currentHandler;
 	
 	DelegatingHandler( XMLElementHandler rootHandler ) {
+		logger.fine( "root: " + rootHandler.getClass().getName() );
 		handlerStack.add( rootHandler );
 		currentHandler = rootHandler;
 	}
@@ -32,12 +36,11 @@ class DelegatingHandler implements ContentHandler {
 		currentHandler.characters(ch, start, length);
 	}
 
-	public void endDocument() throws SAXException {
-	}
-
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		//System.out.println( "end: " + qName + " " + currentHandler.getClass().getName() );
+		if ( logger.isLoggable( Level.FINE ) ) {
+			logger.fine( "end: " + qName + " " + currentHandler.getClass().getName() );
+		}
 		currentHandler.end();
 		handlerStack.remove( handlerStack.size() - 1 );
 		currentHandler = handlerStack.get( handlerStack.size() - 1 );
@@ -67,6 +70,17 @@ class DelegatingHandler implements ContentHandler {
 
 	@Override
 	public void startDocument() throws SAXException {
+		if ( logger.isLoggable( Level.FINE ) ) {
+			logger.fine( "startDocument: " + currentHandler.getClass().getName() );
+		}
+		currentHandler.start(new XMLTag("/"));
+	}
+
+	public void endDocument() throws SAXException {
+		if ( logger.isLoggable( Level.FINE ) ) {
+			logger.fine( "endDocument: " + currentHandler.getClass().getName() );
+		}
+		currentHandler.end();
 	}
 
 	@Override
@@ -76,7 +90,9 @@ class DelegatingHandler implements ContentHandler {
 		XMLElementHandler nextHandler = currentHandler.getHandler( tag );
 		if ( nextHandler == null )
 			nextHandler = XMLNullHandler.getInstance();
-		//System.out.println( tag.getName() + ": " + nextHandler.getClass().getName() );
+		if ( logger.isLoggable( Level.FINE ) ) {
+			logger.fine( tag.getName() + ": " + nextHandler.getClass().getName() );
+		}
 		currentHandler = nextHandler;
 		handlerStack.add( currentHandler );
 		currentHandler.start( tag );
