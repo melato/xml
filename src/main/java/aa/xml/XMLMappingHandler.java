@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 public class XMLMappingHandler implements XMLElementHandler {
 	private Map<String,XMLElementHandler> handlerMap = new HashMap<String,XMLElementHandler>();
 	private	XMLElementHandler	bodyHandler = XMLNullHandler.getInstance();
-	private Logger logger = Logger.getLogger(getClass().getName());
+	private Logger logger = Logger.getLogger(XMLMappingHandler.class.getName());
 	
 	private static class EmptyPathException extends RuntimeException {
 		private static final long serialVersionUID = 1L;		
