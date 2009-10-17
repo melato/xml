@@ -43,7 +43,7 @@ public class XMLWriter {
     }
     
     public void printHeader() {
-    	this.writer.print( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+    	writer.print( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
     }
     
     public void println() {
@@ -203,6 +203,16 @@ public class XMLWriter {
     public PrintWriter getWriter() {
 		return writer;
 	}
+    
+    /**
+     * Set the output writer.
+     * This may be called anytime to redirect the output somewhere else.
+     * @param writer
+     */
+    public void setWriter( PrintWriter writer ) {
+    	flush();
+    	this.writer = writer;
+    }    
     
     public void flush() {
     	writer.flush();
