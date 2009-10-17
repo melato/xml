@@ -8,18 +8,19 @@ import org.xml.sax.SAXException;
 /** An element handler that does nothing.
  **/
 public class XMLNullHandler implements XMLElementHandler {
-	private static XMLElementHandler nullHandler = new XMLNullHandler();
+	/** A static null handler. */
+	public static final XMLElementHandler INSTANCE = new XMLNullHandler();
 
 	/** Return a static null handler. */
 	public static XMLElementHandler getInstance() {
-		return nullHandler;
+		return INSTANCE;
 	}
 	
 	public void end() throws SAXException {
 	}
 
 	public XMLElementHandler getHandler(XMLTag tag) {
-		return nullHandler;
+		return INSTANCE;
 	}
 
 	public void start(XMLTag tag) throws SAXException {
