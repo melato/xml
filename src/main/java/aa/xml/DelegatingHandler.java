@@ -73,7 +73,7 @@ class DelegatingHandler implements ContentHandler {
 		if ( logger.isLoggable( Level.FINE ) ) {
 			logger.fine( "startDocument: " + currentHandler.getClass().getName() );
 		}
-		currentHandler.start(new XMLTag("/"));
+		currentHandler.start(null);
 	}
 
 	public void endDocument() throws SAXException {

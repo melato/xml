@@ -5,16 +5,21 @@ package aa.xml;
 
 import org.xml.sax.SAXException;
 
-/** A modular handler for a single XML element.
- * The modularity of the handler consists in delegating child elements
- * to other handlers.
+/**
+ * A modular handler for a single XML element.
+ * An XMLElementHandler:
+ * <ul>
+ * <li>Receives data for the element that it handles, including calls to start() and end().
+ * <li>Provides handlers for sub-elements.
+ * <li>Receives calls to start() and end() at the beginning and end of the element that it handles. 
+ * </ul>
  * @see XMLDelegator
  * @author Alex Athanasopoulos
  * @date Dec 1, 2007
  */
 public interface XMLElementHandler {
-	/** Start parsing the tag.
-	 * @param tag The XML tag.
+	/** Start parsing the element.
+	 * @param tag The XML tag.  It is null for the 'document' pseudo-element.
 	 */
 	public void start( XMLTag tag ) throws SAXException;
 	
