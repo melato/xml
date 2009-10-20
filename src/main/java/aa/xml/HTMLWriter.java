@@ -7,12 +7,12 @@ public class HTMLWriter extends XMLWriter {
 
 	public HTMLWriter(OutputStream out) {
 		super(out);
-		setUseNewlines(true);
+		setNewlines(true);
 	}
 
 	public HTMLWriter(Writer writer) {
 		super(writer);
-		setUseNewlines(true);
+		setNewlines(true);
 	}
 	
 	public void anchor( String url, String label ) {

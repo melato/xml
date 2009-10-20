@@ -20,10 +20,11 @@ import org.xml.sax.Attributes;
  */
 public class XMLWriter {
     private	PrintWriter	writer;
-	private	boolean		useNewlines = false;
+	private	boolean		newlines = false;
+	private	int			tagCount;
     
-	public void setUseNewlines(boolean useNewlines) {
-		this.useNewlines = useNewlines;
+	public void setNewlines(boolean useNewlines) {
+		this.newlines = useNewlines;
 	}
 	
     /**
@@ -43,7 +44,7 @@ public class XMLWriter {
     }
     
     public void printHeader() {
-    	writer.print( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+    	writer.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
     }
     
     public void println() {
@@ -104,7 +105,7 @@ public class XMLWriter {
     }
     
     public void tagOpen( String tag, boolean close ) {
-    	if ( useNewlines ) {
+    	if ( newlines && tagCount++ > 0 ) {
     		writer.println();
     	}
     	writer.write( "<" );
