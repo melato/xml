@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
  * @date Dec 1, 2007
  */
 class DelegatingHandler implements ContentHandler {
-	Logger logger = Logger.getLogger( getClass().getName() );
+	private Logger logger = Logger.getLogger( DelegatingHandler.class.getName() );
 	/** The current stack of handlers, containing all the nested handlers,
 	 * up to and including the current handler.
 	 */
