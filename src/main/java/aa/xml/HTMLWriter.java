@@ -1,11 +1,12 @@
 package aa.xml;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 
 public class HTMLWriter extends XMLWriter {
 
-	public HTMLWriter(OutputStream out) {
+	public HTMLWriter(OutputStream out) throws IOException {
 		super(out);
 		setNewlines(true);
 	}

@@ -7,10 +7,12 @@
 package aa.xml;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 import org.xml.sax.Attributes;
@@ -19,6 +21,7 @@ import org.xml.sax.Attributes;
  * This is a writer for XML Documents.
  */
 public class XMLWriter {
+	public static final String UTF8 = "utf-8";
     private	PrintWriter	writer;
 	private	boolean		newlines = false;
 	private	int			tagCount;
@@ -33,14 +36,15 @@ public class XMLWriter {
     private char[] tempChars;
 
     public XMLWriter( File file ) throws IOException {
-    	this( new FileWriter( file ));
+    	this( new OutputStreamWriter( new FileOutputStream( file ), UTF8 ));
     }
+    
     public XMLWriter(Writer writer ) {
     	this.writer = new PrintWriter( writer );
     }
-
-    public XMLWriter(OutputStream out) {
-    	this.writer = new PrintWriter( out );
+    
+    public XMLWriter(OutputStream out) throws UnsupportedEncodingException {
+    	this.writer = new PrintWriter( new OutputStreamWriter( out, UTF8 ));
     }
     
     public void printHeader() {
@@ -164,7 +168,7 @@ public class XMLWriter {
 	    case '\r':
 		break;
 	    default:
-		if (chars[counter] < ' ' || chars[counter] > 127) {
+		if ( 0 <= chars[counter] && chars[counter] < ' ' ) {
 		    if (counter > last) {
 			writer.write(chars, last, counter - last);
 		    }
