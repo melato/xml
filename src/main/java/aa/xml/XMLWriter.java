@@ -199,10 +199,12 @@ public class XMLWriter {
      * <code>string</code> to a char[].
      */
     public void text(String string) {
-	int length = string.length();
-	char[] cc = getTempChars(length);
-	string.getChars(0, length, cc, 0);
-	text(cc, 0, length);
+    	if ( string == null )
+    		return;
+		int length = string.length();
+		char[] cc = getTempChars(length);
+		string.getChars(0, length, cc, 0);
+		text(cc, 0, length);
     }
 
     public PrintWriter getWriter() {
