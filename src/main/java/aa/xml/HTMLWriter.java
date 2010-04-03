@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 
+import javax.swing.text.html.HTML;
+
 public class HTMLWriter extends XMLWriter {
 
 	public HTMLWriter(OutputStream out) throws IOException {
@@ -23,4 +25,13 @@ public class HTMLWriter extends XMLWriter {
 		text( label );
 		tagEnd( "a" );
 	}
+	
+	public void tagOpen( HTML.Tag tag ) {
+		super.tagOpen( tag.toString() );
+	}
+	
+	public void tagEnd( HTML.Tag tag ) {
+		super.tagEnd( tag.toString() );
+	}
+	
 }
