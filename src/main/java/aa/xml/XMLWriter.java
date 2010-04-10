@@ -90,10 +90,13 @@ public class XMLWriter {
 		writer.write( '"' );    				
     }
     
-    public void tagEnd( String tag ) {    	
+    public void tagEnd( String tag ) {
     	writer.write( "</" );
     	writer.write( tag );
     	writer.write( ">" );
+    	if ( newlines ) {
+    		writer.println();
+    	}
     }
 
     public void tagClose() {    	
@@ -102,6 +105,9 @@ public class XMLWriter {
     
     public void tagClose( boolean endToo ) {
     	writer.write( endToo ? "/>" : ">" );
+    	if ( endToo && newlines ) {
+    		writer.println();
+    	}
     }
     
     public void tagOpen( String tag ) {
