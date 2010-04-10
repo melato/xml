@@ -39,7 +39,7 @@ class DelegatingHandler implements ContentHandler {
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		if ( logger.isLoggable( Level.FINE ) ) {
-			logger.fine( "end: " + qName + " " + currentHandler.getClass().getName() );
+			logger.fine( "end:   " + qName + " " + currentHandler.getClass().getName() );
 		}
 		currentHandler.end();
 		handlerStack.remove( handlerStack.size() - 1 );
@@ -91,7 +91,7 @@ class DelegatingHandler implements ContentHandler {
 		if ( nextHandler == null )
 			nextHandler = XMLNullHandler.getInstance();
 		if ( logger.isLoggable( Level.FINE ) ) {
-			logger.fine( tag.getName() + ": " + nextHandler.getClass().getName() );
+			logger.fine( "start: " + tag.getName() + " " + nextHandler.getClass().getName() );
 		}
 		currentHandler = nextHandler;
 		handlerStack.add( currentHandler );
