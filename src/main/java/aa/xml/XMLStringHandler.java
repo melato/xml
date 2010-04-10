@@ -52,6 +52,10 @@ public class XMLStringHandler extends XMLNullHandler {
 		}
 	}
 
+	public boolean isTopLevel() {
+		return level == 0;
+	}
+	
 	@Override
 	public void end() {
 		level--;
