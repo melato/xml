@@ -19,6 +19,7 @@ import org.xml.sax.SAXException;
 public class XMLMappingHandler implements XMLElementHandler {
 	private Map<String,XMLElementHandler> handlerMap = new HashMap<String,XMLElementHandler>();
 	private	XMLElementHandler	bodyHandler = XMLNullHandler.getInstance();
+	private	boolean			recursive;
 	private Logger logger = Logger.getLogger(XMLMappingHandler.class.getName());
 	
 	private static class EmptyPathException extends RuntimeException {
@@ -30,6 +31,16 @@ public class XMLMappingHandler implements XMLElementHandler {
 		handlerMap.put( tag, handler );
 	}
 	
+	/**
+	 * Recursive mapping.  The mapping is valid for any level.
+	 * For example if a handler is defined for element "x",
+	 * but element "x" has path "a/b/c/x".
+	 * The handler for x is still called.
+	 * @param recursive
+	 */
+	public void setRecursive(boolean recursive) {
+		this.recursive = recursive;
+	}
 	/** Define a handler for the element body.
 	 *  It handles the start, characters, and end calls. */
 	public void setBodyHandler( XMLElementHandler handler ) {
@@ -66,8 +77,16 @@ public class XMLMappingHandler implements XMLElementHandler {
 
 	public XMLElementHandler getHandler(XMLTag tag) {
 		XMLElementHandler handler = handlerMap.get( tag.getName() );
-		if ( handler == null )
-			handler = XMLNullHandler.getInstance();
+		if ( handler == null ) {
+			if ( ! recursive) {
+				handler = XMLNullHandler.getInstance();
+			} else {
+				XMLMappingHandler innerHandler = new XMLMappingHandler();
+				innerHandler.handlerMap = this.handlerMap;
+				innerHandler.recursive = true;
+				handler = innerHandler;
+			}
+		}
 		if ( logger.isLoggable(Level.FINE )) {
 			logger.fine( tag.getName() + ": " + handler.getClass().getName() );
 		}
