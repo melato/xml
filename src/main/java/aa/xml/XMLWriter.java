@@ -1,9 +1,3 @@
-/*
- * @(#)HTMLWriter.java	1.40 06/04/07
- *
- * Copyright 2006 Sun Microsystems, Inc. All rights reserved.
- * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package aa.xml;
 
 import java.io.File;
@@ -14,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.Map;
 
 import org.xml.sax.Attributes;
 
@@ -50,6 +45,24 @@ public class XMLWriter {
     public void printHeader() {
     	writer.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
     }
+    
+    public void printHeader(Attributes attributes) {
+    	tagOpen( "?xml", false);
+    	int count = attributes.getLength();
+    	for( int i = 0; i < count; i++) {
+    		tagAttribute( attributes.getQName(i), attributes.getValue(i));
+    	}
+    	tagClose(true);
+    }
+    
+    public void printHeader(Map<String,String> attributes) {
+    	tagOpen( "?xml", false);
+    	for( Map.Entry<String,String> e: attributes.entrySet() ) {
+    		tagAttribute(e.getKey(), e.getValue());
+    	}
+    	writer.print("?>");
+    }
+    
     
     public void println() {
     	writer.println();
@@ -88,6 +101,12 @@ public class XMLWriter {
 		}
 		writer.write( cc, start, length - start );
 		writer.write( '"' );    				
+    }
+    
+    public void tagAttributes( Map<String,String> attributes) {
+    	for( Map.Entry<String,String> a : attributes.entrySet()) {
+    		tagAttribute( a.getKey(), a.getValue());
+    	}
     }
     
     public void tagEnd( String tag ) {
