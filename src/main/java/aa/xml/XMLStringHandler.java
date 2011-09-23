@@ -46,7 +46,7 @@ public class XMLStringHandler extends XMLNullHandler {
 	}
 	
 	@Override
-	public void start(XMLTag tag) {
+	public void start(XMLTag tag) throws SAXException {
 		if ( ! append && level++ == 0 ) {
 			clear();
 		}
@@ -57,7 +57,7 @@ public class XMLStringHandler extends XMLNullHandler {
 	}
 	
 	@Override
-	public void end() {
+	public void end() throws SAXException {
 		level--;
 	}
 	
