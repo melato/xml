@@ -1,5 +1,5 @@
 <ivy-module version="1.0">
-    <info organisation="aa" module="aa-xml"/>
+    <info organisation="org.melato" module="${ant.project.name}"/>
     <configurations>
         <include file="${dev.dir}/project/ivy/configurations.xml"/>
     </configurations>

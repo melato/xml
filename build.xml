@@ -1,4 +1,4 @@
-<project name="aa-xml">	
+<project name="org.melato.xml">	
 	<import file="${dev.dir}/project/java.xml"/>
 	<property name="project.version" value="1.0.1"/>
 </project>
