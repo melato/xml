@@ -78,8 +78,14 @@ public class XMLWriter {
     	tagClose();
     }
     
-    public void tagAttribute( String name, String value ) {
-    	writer.write( " " );
+  /**
+   * Output a tag attribute.
+   * To use, open the tag with tagOpen(tag, false);
+   * @param name
+   * @param value
+   */
+  public void tagAttribute( String name, String value ) {
+    writer.write( " " );
 		writer.write( name );
 		writer.write( "=" );
 		writer.write( '"' );
@@ -118,6 +124,10 @@ public class XMLWriter {
     	}
     }
 
+    /**
+     * output &gt;
+     * Use for tags opened with tagOpen(tag, false);
+     */
     public void tagClose() {    	
     	writer.write( ">" );
     }
@@ -129,10 +139,19 @@ public class XMLWriter {
     	}
     }
     
+    /**
+     * output a beginning tag, e.g. &lt;tag&gt;
+     * call tagEnd() at the end of the element.
+     * @param tag
+     */
     public void tagOpen( String tag ) {
     	tagOpen( tag, true );
     }
     
+    /**
+     * output a beginning tag, but leave it open for attributes, e.g. &lt;tag;
+     * @param tag
+     */
     public void tagOpen( String tag, boolean close ) {
     	if ( newlines && tagCount++ > 0 ) {
     		writer.println();
